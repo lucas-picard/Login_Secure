@@ -7,6 +7,7 @@
         class DB{
             public:
                 DB();
+                sqlite3* db;
                 void adds(const char* l, const char* m, const char* r);
                 void tableL();
 
@@ -14,9 +15,8 @@
                 ~DB();
 
             private:
-                sqlite3* db;
-                const char* l;
-                const char* m;
+                const char* _l;
+                const char* _m;
         };
 
 #endif

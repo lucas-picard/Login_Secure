@@ -1,6 +1,7 @@
 #include "secu.hpp"
 
-SECU::SECU(){
+SECU::SECU(sqlite3* db) : db(db) {
+    
 }
 
 std::string SECU::hash_log(const char* log){
@@ -45,6 +46,23 @@ std::string SECU::hash_mdp(const char* mdp){
     return std::string(hash);
 }
 
+bool SECU::checkLog(const std::string username, const std::string password){
+     const char* sql =
+        "SELECT 1 FROM infos WHERE login=? AND password=? LIMIT 1;";
+
+    sqlite3_stmt* stmt;
+
+    sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
+
+    sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, password.c_str(), -1, SQLITE_TRANSIENT);
+
+    bool found = (sqlite3_step(stmt) == SQLITE_ROW);
+
+    sqlite3_finalize(stmt);
+
+    return (found);
+}
 
 SECU::~SECU(){
 }

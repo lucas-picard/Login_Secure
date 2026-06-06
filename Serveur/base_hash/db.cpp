@@ -4,16 +4,18 @@ DB::DB(){
 }
 
 void DB::adds(const char* l, const char* m, const char* r){
-        const char* insert_users =
-            "INSERT INTO infos (login, password, role) VALUES ( ?, ?, ?);" ;
+    const char* insert_users =
+        "INSERT INTO infos (login, password, role) VALUES (?, ?, ?);";
 
-        sqlite3_stmt* stmt;
-        sqlite3_prepare_v2(db, insert_users, -1, &stmt, nullptr);
-        sqlite3_bind_text(stmt, 1, l, -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 2, m, -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 3, r, -1, SQLITE_STATIC);
-        sqlite3_step(stmt);
-        sqlite3_finalize(stmt);
+    sqlite3_stmt* stmt;
+    int rc = sqlite3_prepare_v2(db, insert_users, -1, &stmt, nullptr);
+    std::cout << "prepare: " << rc << std::endl;
+    sqlite3_bind_text(stmt, 1, l, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, m, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 3, r, -1, SQLITE_STATIC);
+    rc = sqlite3_step(stmt);
+    std::cout << "step: " << rc << std::endl;
+    sqlite3_finalize(stmt);
 }
 
 void DB::tableL(){
