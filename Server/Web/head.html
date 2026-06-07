@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test API</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    pre {
+      margin-top: 15px;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Test API</h2>
+  <button onclick="testAPI()">Appeler l'API</button>
+  <pre id="result">Résultat ici...</pre>
+</div>
+
+<script>
+const requete = new XMLHttpRequest();
+const methodeHttp = "GET";
+const url = "/api/test";
+
+function testAPI(){
+    requete.open(methodeHttp, url);
+
+    requete.onreadystatechange = function(){
+        if (requete.readyState === 4 && requete.status === 200) {
+            console.log(requete.responseText);
+            document.getElementById("result").textContent = requete.responseText;
+        }
+    };
+
+    requete.send();
+}
+</script>
+
+</body>
+</html>
